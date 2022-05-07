@@ -1,0 +1,4 @@
+# We don't want to add node_modules packages to the project
+node_modules
+# Don't add dist to the project
+dist
