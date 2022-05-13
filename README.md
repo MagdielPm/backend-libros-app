@@ -30,7 +30,7 @@ Visit the official site of [postman](https://www.postman.com/downloads/) and dow
 - Clone the repo
 
 ```bash
-git clone https://github.com/MagdielPm/Rest_Market.git
+git clone https://github.com/MagdielPm/backend-libros-app
 ```
 
 - Install the dependencies
