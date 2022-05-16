@@ -1,4 +1,5 @@
 "use strict";
+import bcrypt from "bcrypt";
 
 module.exports = {
   async up(queryInterface, Sequelize) {
