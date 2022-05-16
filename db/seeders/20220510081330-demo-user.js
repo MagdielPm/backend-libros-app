@@ -11,6 +11,17 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
+    const encryptedPassword = bcrypt.hashSync("superadmin123", 10);
+    await queryInterface.bulkInsert("admins", [
+      {
+        id: 1,
+        userName: "Super admin",
+        email: "admin@gmail.com",
+        password: encryptedPassword,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
 
     await queryInterface.bulkInsert("books", [
       {
