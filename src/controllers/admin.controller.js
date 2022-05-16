@@ -7,13 +7,12 @@ const TOKEN_KEY = "Token-Auth";
 
 export async function createAdmin(req, res) {
   const { userName, email, password } = req.body;
-  const encryptedPassword = bcrypt.hashSync(password, 10);
   try {
     let newUser = await User.create(
       {
         userName: userName,
         email: email,
-        password: encryptedPassword,
+        password: password,
       },
       {
         fields: ["userName", "email", "password"],
@@ -78,7 +77,7 @@ export async function adminLogin(req, res) {
     }
 
     if (!!user) {
-      const areEquals = bcrypt.compareSync(password, user.password);
+      const areEquals = password === user.password ? true : false;
       if (!areEquals) {
         return res.status(401).json({
           message: "Error invalid password",
