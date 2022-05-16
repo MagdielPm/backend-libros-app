@@ -8,7 +8,7 @@ const TOKEN_KEY = "Token-Auth";
 export async function createAdmin(req, res) {
   const { userName, email, password } = req.body;
   try {
-    let newUser = await User.create(
+    let newAdmin = await Admin.create(
       {
         userName: userName,
         email: email,
@@ -19,7 +19,7 @@ export async function createAdmin(req, res) {
       }
     );
 
-    if (!!newUser) {
+    if (!!newAdmin) {
       return res.status(201).json({
         message: "Sign up successfully",
         data: newUser,
@@ -28,17 +28,17 @@ export async function createAdmin(req, res) {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Something went wrong while creating an user",
-      data: { error },
+      message: "Something went wrong while creating an admin",
+      data: error,
     });
   }
 }
 
 export async function getUser(req, res) {
   try {
-    const users = await User.findAll();
+    const admins = await Admin.findAll();
 
-    if (!!users) {
+    if (!!admins) {
       res.status(200).json({
         message: "All users fetched successfully",
         data: users,
@@ -47,8 +47,8 @@ export async function getUser(req, res) {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Something went wrong while fetching users",
-      data: { error },
+      message: "Something went wrong while fetching admins",
+      data: error,
     });
   }
 }
@@ -63,21 +63,21 @@ export async function adminLogin(req, res) {
       });
     }
 
-    const user = await User.findOne({
+    const admin = await Admin.findOne({
       where: {
         email: email,
       },
     });
 
-    if (user === null) {
+    if (admin === null) {
       return res.status(404).json({
         message: "Error user not found",
         data: { emal: email },
       });
     }
 
-    if (!!user) {
-      const areEquals = password === user.password ? true : false;
+    if (!!admin) {
+      const areEquals = password === admin.password ? true : false;
       if (!areEquals) {
         return res.status(401).json({
           message: "Error invalid password",
@@ -87,15 +87,15 @@ export async function adminLogin(req, res) {
 
       res.status(200).json({
         message: "Login successfully",
-        userName: user.userName,
-        token: createToken(user),
+        userName: admin.userName,
+        token: createToken(admin),
       });
     }
   } catch (error) {
     console.log(error);
 
     return res.status(500).json({
-      message: "Something went wrong while fetching a user credentials",
+      message: "Something went wrong while fetching a the admin's credentials",
       data: { error },
     });
   }
