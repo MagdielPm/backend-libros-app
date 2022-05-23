@@ -174,6 +174,10 @@ export async function userLogin(req, res) {
         token: createToken(user),
       });
     }
+    return res.status(201).json({
+      message: "User updated successfully",
+      data: user,
+    });
   } catch (error) {
     console.log(error);
 
