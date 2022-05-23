@@ -1,8 +1,11 @@
 import { Router } from "express";
 import {
-  getUser,
+  getUserById,
   userLogin,
   createNewUser,
+  getUsers,
+  deleteUserById,
+  updateUser,
 } from "../controllers/users.controller";
 
 import { verifyMyActiveToken } from "../middleware/middleware";
@@ -14,6 +17,9 @@ router.post("/signup", createNewUser);
 
 router.use(verifyMyActiveToken);
 
-router.get("/user/:id", getUser);
+router.get("/user/:id", getUserById);
+router.get("(/user/", getUsers);
+router.delete("/user/:id", deleteUserById);
+router.put("/user/:id", updateUser);
 
 export default router;

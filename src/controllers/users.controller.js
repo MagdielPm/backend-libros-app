@@ -5,6 +5,7 @@ import moment from "moment";
 
 const TOKEN_KEY = "Token-Auth";
 
+// Create new user with POST
 export async function createNewUser(req, res) {
   const { userName, email, password } = req.body;
   const encryptedPassword = bcrypt.hashSync(password, 10);
@@ -35,7 +36,8 @@ export async function createNewUser(req, res) {
   }
 }
 
-export async function getUser(req, res) {
+// Get all users with GET
+export async function getUsers(req, res) {
   try {
     const users = await User.findAll();
 
@@ -50,6 +52,86 @@ export async function getUser(req, res) {
     res.status(500).json({
       message: "Something went wrong while fetching users",
       data: { error },
+    });
+  }
+}
+
+// Get user by id with GET
+export async function getUserById(req, res) {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!!user) {
+      res.status(200).json({
+        message: "User fetched successfully",
+        data: user,
+      });
+    }
+  } catch (error) {
+    res.status(500),
+      json({
+        message: "Something went wrong while fetching an employee",
+        data: error,
+      });
+  }
+}
+
+// Delete user by id with DELETE
+export async function deleteUserById(req, res) {
+  try {
+    const { id } = req.params;
+    const book = await User.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!!book) {
+      res.status(200).json({
+        message: "User deleted successfully",
+        data: book,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong while deleting an user",
+      data: error,
+    });
+  }
+}
+
+// Update user by id with PUT
+export async function updateUser(req, res) {
+  const { id } = req.params;
+  const { userName, email, password } = req.body;
+
+  try {
+    let users = await User.findAll({
+      attributes: ["userName", "email", "password"],
+      where: {
+        id: id,
+      },
+    });
+
+    if (!!users) {
+      users.forEach(async (user) => {
+        await user.update({
+          id: id,
+          userName: userName,
+          email: email,
+          password: bcrypt.hashSync(password, 10),
+        });
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "User updated successfully",
+      data: error,
     });
   }
 }
