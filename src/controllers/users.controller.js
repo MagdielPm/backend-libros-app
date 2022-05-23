@@ -109,6 +109,7 @@ export async function deleteUserById(req, res) {
 export async function updateUser(req, res) {
   const { id } = req.params;
   const { userName, email, password } = req.body;
+  const encryptedPassword = bcrypt.hashSync(password, 10);
 
   try {
     let users = await User.findAll({
@@ -124,10 +125,14 @@ export async function updateUser(req, res) {
           id: id,
           userName: userName,
           email: email,
-          password: bcrypt.hashSync(password, 10),
+          password: encryptedPassword,
         });
       });
     }
+    return res.status(201).json({
+      message: "User updated successfully",
+      data: users,
+    });
   } catch (error) {
     res.status(500).json({
       message: "User updated successfully",
