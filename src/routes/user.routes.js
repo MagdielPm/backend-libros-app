@@ -17,9 +17,9 @@ router.post("/signup", createNewUser);
 
 router.use(verifyMyActiveToken);
 
-router.get("/user/:id", getUserById);
-router.get("(/user/", getUsers);
-router.delete("/user/:id", deleteUserById);
-router.put("/user/:id", updateUser);
+router.get("/:id", getUserById);
+router.get("(/", getUsers);
+router.delete("/:id", deleteUserById);
+router.put("/:id", updateUser);
 
 export default router;
